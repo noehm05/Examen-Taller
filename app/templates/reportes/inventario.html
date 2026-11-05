@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - JEHIELY</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #fff7f8; margin: 30px; color: #493b40; }
+        h1 { color: #b65f7c; }
+        .contenedor { background: white; padding: 25px; border-radius: 12px; }
+        select, button { padding: 9px; margin: 5px; }
+        button { background: #b65f7c; color: white; border: 0; border-radius: 5px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        th { background: #f8e3e9; }
+        .bajo { color: #c0392b; font-weight: bold; }
+        .normal { color: #287a4b; font-weight: bold; }
+        .resumen { background: #f8e3e9; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        a { color: #a34d6a; }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <a href="/">← Volver al sistema</a>
+        <h1>Reporte de inventario</h1>
+        <p>Consulta las existencias y detecta productos con stock bajo.</p>
+
+        <form method="GET">
+            <label>Filtrar productos:</label>
+            <select name="filtro">
+                <option value="todos" {% if filtro == "todos" %}selected{% endif %}>Todos</option>
+                <option value="bajo" {% if filtro == "bajo" %}selected{% endif %}>Stock bajo</option>
+                <option value="normal" {% if filtro == "normal" %}selected{% endif %}>Stock normal</option>
+            </select>
+            <button type="submit">Filtrar</button>
+        </form>
+
+        <div class="resumen">
+            <strong>Productos con stock bajo en esta consulta: {{ productos_bajos }}</strong>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Stock actual</th>
+                    <th>Stock mínimo</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.categoria.nombre }}</td>
+                    <td>{{ producto.stock }}</td>
+                    <td>{{ producto.stock_minimo }}</td>
+                    <td>
+                        {% if producto.stock <= producto.stock_minimo %}
+                            <span class="bajo">Stock bajo</span>
+                        {% else %}
+                            <span class="normal">Stock normal</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No hay productos para mostrar.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

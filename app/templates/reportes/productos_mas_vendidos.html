@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos más vendidos - JEHIELY</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #fff7f8; margin: 30px; color: #493b40; }
+        h1 { color: #b65f7c; }
+        .contenedor { background: white; padding: 25px; border-radius: 12px; }
+        input, button { padding: 9px; margin: 5px; }
+        button { background: #b65f7c; color: white; border: 0; border-radius: 5px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        th { background: #f8e3e9; }
+        .resumen { background: #f8e3e9; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        a { color: #a34d6a; }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <a href="/">← Volver al sistema</a>
+        <h1>Productos más vendidos</h1>
+        <p>Consulta los productos vendidos durante un período determinado.</p>
+
+        <form method="GET">
+            <label>Desde:</label>
+            <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}" required>
+
+            <label>Hasta:</label>
+            <input type="date" name="fecha_fin" value="{{ fecha_fin }}" required>
+
+            <button type="submit">Consultar</button>
+        </form>
+
+        <div class="resumen">
+            <strong>Total de unidades vendidas: {{ total_unidades }}</strong>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Unidades vendidas</th>
+                    <th>Total generado (Bs.)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.unidades }}</td>
+                    <td>{{ "%.2f"|format(producto.total or 0) }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">No hay ventas registradas en este período.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

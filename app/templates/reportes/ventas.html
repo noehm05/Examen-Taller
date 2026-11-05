@@ -1,0 +1,76 @@
+{% extends "appbuilder/base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h2>Reporte de ventas JEHIELY</h2>
+    <p>Consulta los pedidos y las ventas por período.</p>
+
+    <form method="GET" class="form-inline mb-4">
+
+        <label>Desde:</label>
+        <input
+            type="date"
+            name="fecha_inicio"
+            value="{{ fecha_inicio }}"
+            class="form-control"
+            required
+        >
+
+        <label>Hasta:</label>
+        <input
+            type="date"
+            name="fecha_fin"
+            value="{{ fecha_fin }}"
+            class="form-control"
+            required
+        >
+
+        <button type="submit" class="btn btn-primary">
+            Consultar
+        </button>
+
+    </form>
+
+    <div class="card p-3 mb-4">
+        <h4>Total de ventas</h4>
+        <h2>{{ "%.2f"|format(total_ventas) }}</h2>
+        <p>Pedidos encontrados: {{ pedidos|length }}</p>
+    </div>
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Ocasión</th>
+                <th>Estado</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id_pedido }}</td>
+                <td>{{ pedido.cliente }}</td>
+                <td>{{ pedido.fecha_pedido }}</td>
+                <td>{{ pedido.ocasion }}</td>
+                <td>{{ pedido.estado }}</td>
+                <td>{{ "%.2f"|format(pedido.total or 0) }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">
+                    No hay pedidos en este período.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}
