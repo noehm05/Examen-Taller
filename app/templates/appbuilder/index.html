@@ -1,0 +1,177 @@
+
+{% extends "appbuilder/base.html" %}
+
+{% block head_css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+
+    <div class="dashboard-welcome">
+        <div>
+            <span class="welcome-label">BIENVENIDA A</span>
+            <h1>JEHIELY <span>🌸</span></h1>
+            <p>Tu espacio para organizar flores, regalos y momentos especiales.</p>
+        </div>
+        <div class="welcome-decoration">
+            <i class="fa fa-heart"></i>
+        </div>
+    </div>
+
+    <div class="dashboard-section-title">
+        <h2>Resumen general</h2>
+        <p>Así marcha tu florería y regalería.</p>
+    </div>
+
+    <div class="dashboard-cards">
+
+        <div class="dashboard-card card-products">
+            <div class="card-icon">
+                <i class="fa fa-gift"></i>
+            </div>
+            <div>
+                <p>Productos activos</p>
+                <h3>{{ total_productos }}</h3>
+            </div>
+        </div>
+
+        <div class="dashboard-card card-clients">
+            <div class="card-icon">
+                <i class="fa fa-users"></i>
+            </div>
+            <div>
+                <p>Clientes registrados</p>
+                <h3>{{ total_clientes }}</h3>
+            </div>
+        </div>
+
+        <div class="dashboard-card card-orders">
+            <div class="card-icon">
+                <i class="fa fa-shopping-bag"></i>
+            </div>
+            <div>
+                <p>Pedidos registrados</p>
+                <h3>{{ total_pedidos }}</h3>
+            </div>
+        </div>
+
+        <div class="dashboard-card card-sales">
+            <div class="card-icon">
+                <i class="fa fa-money"></i>
+            </div>
+            <div>
+                <p>Total de pedidos</p>
+                <h3>{{ "%.2f"|format(valor_total_pedidos|float) }}</h3>
+                <small>Importe acumulado</small>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="dashboard-tables">
+
+        <div class="dashboard-panel">
+            <div class="panel-heading">
+                <div>
+                    <h3><i class="fa fa-exclamation-triangle"></i> Stock bajo</h3>
+                    <p>Productos que necesitan reposición</p>
+                </div>
+            </div>
+
+            {% if productos_stock_bajo %}
+            <div class="table-responsive">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Stock actual</th>
+                            <th>Stock mínimo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos_stock_bajo %}
+                        <tr>
+                            <td>{{ producto.nombre }}</td>
+                            <td>
+                                <span class="stock-warning">
+                                    {{ producto.stock }}
+                                </span>
+                            </td>
+                            <td>{{ producto.stock_minimo }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fa fa-check-circle"></i>
+                <p>No hay productos con stock bajo.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="dashboard-panel" id="ultimos-pedidos">
+            <div class="panel-heading">
+                <div>
+                    <h3><i class="fa fa-list-alt"></i> Últimos pedidos</h3>
+                    <p>Los pedidos más recientes de tus clientes</p>
+                </div>
+            </div>
+
+            {% if ultimos_pedidos %}
+            <div class="table-responsive">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>N.º</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pedido in ultimos_pedidos %}
+                        <tr>
+                            <td>#{{ pedido.id_pedido }}</td>
+                            <td>{{ pedido.cliente.nombre }}</td>
+                            <td>
+                                {% if pedido.fecha_pedido %}
+                                    {{ pedido.fecha_pedido.strftime('%d/%m/%Y') }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="order-status">
+                                    {{ pedido.estado }}
+                                </span>
+                            </td>
+                            <td>{{ "%.2f"|format(pedido.total|float) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fa fa-shopping-bag"></i>
+                <p>Aún no tienes pedidos registrados.</p>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="dashboard-footer">
+        <i class="fa fa-heart"></i>
+        JEHIELY - Cada detalle hace especial un momento.
+    </div>
+
+</div>
+
+{% endblock %}

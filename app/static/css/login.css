@@ -1,0 +1,355 @@
+
+/* ==========================================
+   JEHIELY - LOGIN PERSONALIZADO
+   Paleta: fucsia, violeta, rosa y celeste
+   ========================================== */
+
+:root {
+    --fuchsia: #d63384;
+    --fuchsia-dark: #b92370;
+    --purple: #9b83d5;
+    --purple-light: #eee7ff;
+    --pink: #ffe1ef;
+    --pink-light: #fff4f8;
+    --blue: #dceeff;
+    --white: #ffffff;
+    --text: #51465e;
+    --muted: #95899f;
+}
+
+/* Fondo general */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f8f2ff;
+}
+
+/* Ocultar elementos originales del login */
+
+.jehiely-login-page {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    margin-left: calc(50% - 50vw);
+    padding: 35px 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 10% 15%, #ffe1ef 0, transparent 30%),
+        radial-gradient(circle at 90% 85%, #dceeff 0, transparent 30%),
+        linear-gradient(135deg, #fdf4fb, #f0eaff);
+}
+
+/* Decoraciones de fondo */
+
+.login-decoration {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+    opacity: 0.65;
+}
+
+.decoration-one {
+    width: 230px;
+    height: 230px;
+    background: #f8c7e2;
+    top: -90px;
+    right: 8%;
+}
+
+.decoration-two {
+    width: 180px;
+    height: 180px;
+    background: #d8c8fa;
+    bottom: -65px;
+    left: 7%;
+}
+
+/* Tarjeta principal */
+
+.jehiely-login-card {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: 950px;
+    min-height: 570px;
+    overflow: hidden;
+    border-radius: 25px;
+    background: var(--white);
+    box-shadow: 0 20px 60px rgba(100, 65, 125, 0.16);
+}
+
+/* Panel de marca */
+
+.login-brand {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 35px;
+    text-align: center;
+    color: var(--white);
+
+    background:
+        linear-gradient(
+            145deg,
+            #e34b9b 0%,
+            #b57bdc 55%,
+            #8d9fe0 100%
+        );
+}
+
+.brand-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+    height: 75px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    font-size: 32px;
+}
+
+.brand-small {
+    font-size: 11px;
+    letter-spacing: 4px;
+    font-weight: 600;
+}
+
+.login-brand h1 {
+    margin: 12px 0;
+    font-size: 55px;
+    font-weight: 800;
+    letter-spacing: 8px;
+    color: white;
+}
+
+.brand-line {
+    width: 65px;
+    height: 3px;
+    margin: 10px 0 20px;
+    border-radius: 10px;
+    background: white;
+}
+
+.brand-slogan {
+    font-size: 23px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.brand-flower {
+    display: flex;
+    gap: 17px;
+    margin: 18px 0;
+    font-size: 19px;
+    color: #ffe1ef;
+}
+
+.brand-description {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Panel del formulario */
+
+.login-form-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 65px 55px;
+    background: white;
+}
+
+.welcome-label {
+    color: var(--fuchsia);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.form-heading h2 {
+    margin: 12px 0 8px;
+    color: var(--text);
+    font-size: 30px;
+    font-weight: 750;
+}
+
+.form-heading p {
+    margin-bottom: 35px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* Campos */
+
+.jehiely-form .form-group {
+    margin-bottom: 24px;
+}
+
+.jehiely-form label {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.jehiely-input {
+    position: relative;
+}
+
+.jehiely-input > i {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    color: var(--purple);
+    font-size: 16px;
+    z-index: 2;
+}
+
+.jehiely-input .form-control {
+    width: 100%;
+    height: 49px;
+    padding: 10px 15px 10px 45px;
+    border: 1px solid #eadff2;
+    border-radius: 12px;
+    background: #fcfaff;
+    box-shadow: none;
+    color: var(--text);
+    font-size: 13px;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+}
+
+.jehiely-input .form-control:focus {
+    border-color: var(--fuchsia);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(214, 51, 132, 0.10);
+    outline: none;
+}
+
+.jehiely-input .form-control::placeholder {
+    color: #b8afc1;
+}
+
+.login-error {
+    display: block;
+    margin-top: 7px;
+    color: #d6335d;
+    font-size: 12px;
+}
+
+/* Botón */
+
+.jehiely-login-button {
+    width: 100%;
+    height: 50px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    background: linear-gradient(100deg, #d63384, #9b72d1);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(183, 65, 147, 0.22);
+    transition: all 0.25s ease;
+}
+
+.jehiely-login-button i {
+    margin-left: 10px;
+}
+
+.jehiely-login-button:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(100deg, #b92370, #8260be);
+    box-shadow: 0 12px 22px rgba(183, 65, 147, 0.30);
+}
+
+/* Registro */
+
+.register-link {
+    display: block;
+    margin-top: 18px;
+    text-align: center;
+    color: var(--purple);
+    font-size: 13px;
+    text-decoration: none;
+}
+
+/* Pie del formulario */
+
+.login-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #f1eaf5;
+    color: var(--muted);
+    text-align: center;
+    font-size: 12px;
+}
+
+.login-footer i {
+    margin-right: 5px;
+    color: var(--fuchsia);
+}
+
+/* Adaptación a celulares */
+
+@media (max-width: 767px) {
+
+    .jehiely-login-page {
+        padding: 20px 12px;
+    }
+
+    .jehiely-login-card {
+        grid-template-columns: 1fr;
+        max-width: 430px;
+    }
+
+    .login-brand {
+        padding: 35px 20px;
+    }
+
+    .brand-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 24px;
+    }
+
+    .login-brand h1 {
+        font-size: 39px;
+    }
+
+    .brand-slogan {
+        font-size: 18px;
+    }
+
+    .brand-description {
+        margin-bottom: 0;
+    }
+
+    .login-form-section {
+        padding: 40px 28px;
+    }
+
+    .form-heading h2 {
+        font-size: 25px;
+    }
+
+    .login-footer {
+        margin-top: 28px;
+    }
+}

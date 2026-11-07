@@ -1,0 +1,125 @@
+
+{% extends "appbuilder/base.html" %}
+
+{% block head_css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+
+<div class="jehiely-login-page">
+
+    <div class="login-decoration decoration-one"></div>
+    <div class="login-decoration decoration-two"></div>
+
+    <div class="jehiely-login-card">
+
+        <section class="login-brand">
+
+            <div class="brand-icon">
+                <i class="fa fa-leaf"></i>
+            </div>
+
+            <span class="brand-small">FLORERÍA & REGALERÍA</span>
+
+            <h1>JEHIELY</h1>
+
+            <div class="brand-line"></div>
+
+            <p class="brand-slogan">
+                Detalles que florecen<br>
+                en el corazón
+            </p>
+
+            <div class="brand-flower">
+                <i class="fa fa-heart"></i>
+                <i class="fa fa-heart"></i>
+                <i class="fa fa-heart"></i>
+            </div>
+
+            <p class="brand-description">
+                Creamos momentos especiales<br>
+                con amor y dedicación.
+            </p>
+
+        </section>
+
+        <section class="login-form-section">
+
+            <div class="form-heading">
+                <span class="welcome-label">BIENVENIDA</span>
+
+                <h2>¡Hola de nuevo!</h2>
+
+                <p>Ingresa a tu espacio de administración.</p>
+            </div>
+
+            <form class="jehiely-form" action="" method="post" name="login">
+
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+
+                    <div class="jehiely-input">
+                        <i class="fa fa-user"></i>
+                        {{ form.username(
+                            class="form-control",
+                            placeholder="Ingresa tu usuario",
+                            autofocus=true,
+                            autocomplete="username"
+                        ) }}
+                    </div>
+
+                    {% for error in form.errors.get('username', []) %}
+                        <span class="login-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+
+                    <div class="jehiely-input">
+                        <i class="fa fa-lock"></i>
+                        {{ form.password(
+                            class="form-control",
+                            placeholder="Ingresa tu contraseña",
+                            autocomplete="current-password"
+                        ) }}
+                    </div>
+
+                    {% for error in form.errors.get('password', []) %}
+                        <span class="login-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="jehiely-login-button">
+                    Iniciar sesión
+                    <i class="fa fa-arrow-right"></i>
+                </button>
+
+                {% if appbuilder.sm.auth_user_registration %}
+                    <a href="{{ appbuilder.sm.get_url_for_registeruser }}"
+                       class="register-link">
+                        Crear una cuenta
+                    </a>
+                {% endif %}
+
+            </form>
+
+            <div class="login-footer">
+                <i class="fa fa-heart"></i>
+                JEHIELY · Detalles con amor
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

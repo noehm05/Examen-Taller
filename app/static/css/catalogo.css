@@ -1,0 +1,153 @@
+
+/* ==========================================
+   JEHIELY - DISEÑO DE CATÁLOGO
+   Categorías, Productos y Proveedores
+   ========================================== */
+
+:root {
+    --jehiely-rosa: #e879a9;
+    --jehiely-rosa-claro: #fff0f6;
+    --jehiely-violeta: #9370c8;
+    --jehiely-violeta-claro: #f1eafa;
+    --jehiely-azul: #dceefa;
+    --jehiely-texto: #51445b;
+    --jehiely-blanco: #ffffff;
+}
+
+/* Fondo general */
+body {
+    background-color: #fff8fc !important;
+    color: var(--jehiely-texto);
+}
+
+/* Contenido principal */
+body .container {
+    color: var(--jehiely-texto);
+}
+
+/* Títulos */
+body h1,
+body h2,
+body h3 {
+    color: #895b9f;
+    font-weight: 700;
+}
+
+/* Barra de navegación */
+.navbar {
+    background: linear-gradient(100deg, #d96d9f, #9270c6) !important;
+    border: none !important;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 4px 14px rgba(125, 79, 133, 0.16);
+}
+
+.navbar .navbar-brand,
+.navbar .navbar-brand a,
+.navbar .navbar-nav > li > a {
+    color: white !important;
+    font-weight: 600;
+}
+
+.navbar .navbar-nav > li > a:hover,
+.navbar .navbar-nav > li > a:focus {
+    background-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Paneles y contenedores */
+.panel,
+.well {
+    background: white;
+    border: 1px solid #f3d8e8;
+    border-radius: 13px;
+    box-shadow: 0 4px 14px rgba(150, 105, 150, 0.07);
+}
+
+/* Tablas */
+.table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: #f4e8fa !important;
+    color: #80549a !important;
+    font-weight: 700;
+    border-bottom: 2px solid #e7c9e9 !important;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #fff7fb;
+}
+
+.table tbody tr:hover {
+    background-color: #fceaf3 !important;
+}
+
+.table td {
+    color: #594d60;
+    vertical-align: middle !important;
+}
+
+/* Botones */
+.btn-primary,
+.btn-success {
+    background-color: var(--jehiely-violeta) !important;
+    border-color: var(--jehiely-violeta) !important;
+    color: white !important;
+    border-radius: 8px;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+    background-color: #7956ae !important;
+}
+
+.btn-warning {
+    background-color: #f4b9d3 !important;
+    border-color: #f4b9d3 !important;
+    color: #70415c !important;
+    border-radius: 8px;
+}
+
+.btn-danger {
+    border-radius: 8px;
+}
+
+/* Formularios */
+.form-control,
+.select2-container--bootstrap .select2-selection {
+    border: 1px solid #e5cde9 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    min-height: 36px;
+}
+
+.form-control:focus {
+    border-color: var(--jehiely-rosa) !important;
+    box-shadow: 0 0 0 3px rgba(232, 121, 169, 0.13) !important;
+}
+
+.control-label {
+    color: #80549a;
+    font-weight: 600;
+}
+
+/* Paginación */
+.pagination > li > a,
+.pagination > li > span {
+    color: #895b9f;
+    border-color: #ecd9ee;
+}
+
+.pagination > .active > a,
+.pagination > .active > span {
+    background-color: var(--jehiely-violeta) !important;
+    border-color: var(--jehiely-violeta) !important;
+    color: white !important;
+}
+
+/* Mensajes */
+.alert {
+    border-radius: 10px;
+}
