@@ -1,76 +1,294 @@
-{% extends "appbuilder/base.html" %}
+
+{% extends "catalogo/base.html" %}
 
 {% block content %}
 
-<div class="container">
-    <h2>Reporte de ventas JEHIELY</h2>
-    <p>Consulta los pedidos y las ventas por período.</p>
+<style>
+    .reporte-contenedor {
+        padding: 25px;
+        background: #fff;
+        border: 1px solid #f3d8e8;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(150, 105, 150, 0.08);
+        margin-bottom: 25px;
+    }
 
-    <form method="GET" class="form-inline mb-4">
+    .reporte-encabezado {
+        padding: 22px;
+        margin-bottom: 22px;
+        border-radius: 13px;
+        background: linear-gradient(110deg, #fff0f6, #f1eafa);
+    }
 
-        <label>Desde:</label>
-        <input
-            type="date"
-            name="fecha_inicio"
-            value="{{ fecha_inicio }}"
-            class="form-control"
-            required
-        >
+    .reporte-encabezado h2 {
+        color: #895b9f;
+        font-weight: 700;
+        margin-top: 0;
+    }
 
-        <label>Hasta:</label>
-        <input
-            type="date"
-            name="fecha_fin"
-            value="{{ fecha_fin }}"
-            class="form-control"
-            required
-        >
+    .reporte-encabezado p {
+        color: #71627a;
+        margin-bottom: 0;
+    }
 
-        <button type="submit" class="btn btn-primary">
-            Consultar
+    .reporte-filtros {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 18px;
+        margin: 20px 0;
+        background: #fff8fc;
+        border: 1px solid #f3d8e8;
+        border-radius: 12px;
+    }
+
+    .reporte-filtros label {
+        color: #80549a;
+        font-weight: 600;
+    }
+
+    .reporte-filtros input {
+        padding: 9px;
+        border: 1px solid #e5cde9;
+        border-radius: 8px;
+        color: #51445b;
+        background: white;
+    }
+
+    .reporte-filtros input:focus {
+        outline: none;
+        border-color: #e879a9;
+        box-shadow: 0 0 0 3px rgba(232, 121, 169, 0.13);
+    }
+
+    .btn-reporte {
+        padding: 10px 18px;
+        background: #9370c8;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    .btn-reporte:hover {
+        background: #7956ae;
+        color: white;
+    }
+
+    .resumen-ventas {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 25px;
+        padding: 22px;
+        margin: 20px 0;
+        background: #fff0f6;
+        border: 1px solid #f3d8e8;
+        border-left: 5px solid #e879a9;
+        border-radius: 12px;
+    }
+
+    .resumen-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .resumen-item i {
+        font-size: 30px;
+        color: #d96d9f;
+    }
+
+    .resumen-item strong {
+        display: block;
+        color: #80549a;
+        font-size: 22px;
+    }
+
+    .resumen-item span {
+        color: #71627a;
+    }
+
+    .tabla-reporte {
+        margin-top: 20px;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .tabla-reporte thead th {
+        background: #f1eafa !important;
+        color: #80549a !important;
+        padding: 14px;
+        border-bottom: 2px solid #e7c9e9 !important;
+    }
+
+    .tabla-reporte tbody td {
+        padding: 13px;
+        vertical-align: middle;
+    }
+
+    .estado-pedido {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #e9e0f7;
+        color: #80549a;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .volver-sistema {
+        display: inline-block;
+        margin-bottom: 18px;
+        color: #895b9f;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .volver-sistema:hover {
+        color: #d96d9f;
+        text-decoration: none;
+    }
+</style>
+
+<div class="reporte-contenedor">
+
+    <a href="/" class="volver-sistema">
+        <i class="fa fa-arrow-left"></i> Volver al inicio
+    </a>
+
+    <div class="reporte-encabezado">
+        <h2>
+            <i class="fa fa-bar-chart"></i>
+            Reporte de ventas JEHIELY
+        </h2>
+
+        <p>
+            Consulta los pedidos y las ventas realizadas durante un período determinado.
+        </p>
+    </div>
+
+    <form method="GET" class="reporte-filtros">
+
+        <div>
+            <label for="fecha_inicio">
+                <i class="fa fa-calendar"></i> Desde:
+            </label>
+
+            <input
+                type="date"
+                id="fecha_inicio"
+                name="fecha_inicio"
+                value="{{ fecha_inicio }}"
+                class="form-control"
+                required
+            >
+        </div>
+
+        <div>
+            <label for="fecha_fin">
+                <i class="fa fa-calendar"></i> Hasta:
+            </label>
+
+            <input
+                type="date"
+                id="fecha_fin"
+                name="fecha_fin"
+                value="{{ fecha_fin }}"
+                class="form-control"
+                required
+            >
+        </div>
+
+        <button type="submit" class="btn-reporte">
+            <i class="fa fa-search"></i> Consultar ventas
         </button>
 
     </form>
 
-    <div class="card p-3 mb-4">
-        <h4>Total de ventas</h4>
-        <h2>{{ "%.2f"|format(total_ventas) }}</h2>
-        <p>Pedidos encontrados: {{ pedidos|length }}</p>
+    <div class="resumen-ventas">
+
+        <div class="resumen-item">
+            <i class="fa fa-money"></i>
+
+            <div>
+                <strong>Bs. {{ "%.2f"|format(total_ventas) }}</strong>
+                <span>Total de ventas</span>
+            </div>
+        </div>
+
+        <div class="resumen-item">
+            <i class="fa fa-shopping-bag"></i>
+
+            <div>
+                <strong>{{ pedidos|length }}</strong>
+                <span>Pedidos encontrados</span>
+            </div>
+        </div>
+
     </div>
 
-    <table class="table table-bordered table-striped">
+    <h3>
+        <i class="fa fa-list"></i>
+        Detalle de ventas
+    </h3>
 
-        <thead>
-            <tr>
-                <th>Número</th>
-                <th>Cliente</th>
-                <th>Fecha</th>
-                <th>Ocasión</th>
-                <th>Estado</th>
-                <th>Total</th>
-            </tr>
-        </thead>
+    <div class="table-responsive">
 
-        <tbody>
-            {% for pedido in pedidos %}
-            <tr>
-                <td>{{ pedido.id_pedido }}</td>
-                <td>{{ pedido.cliente }}</td>
-                <td>{{ pedido.fecha_pedido }}</td>
-                <td>{{ pedido.ocasion }}</td>
-                <td>{{ pedido.estado }}</td>
-                <td>{{ "%.2f"|format(pedido.total or 0) }}</td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="6" class="text-center">
-                    No hay pedidos en este período.
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        <table class="table table-hover tabla-reporte">
 
-    </table>
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Ocasión</th>
+                    <th>Estado</th>
+                    <th>Total (Bs.)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for pedido in pedidos %}
+                <tr>
+                    <td>
+                        <strong>#{{ pedido.id_pedido }}</strong>
+                    </td>
+
+                    <td>{{ pedido.cliente }}</td>
+
+                    <td>{{ pedido.fecha_pedido }}</td>
+
+                    <td>{{ pedido.ocasion }}</td>
+
+                    <td>
+                        <span class="estado-pedido">
+                            {{ pedido.estado }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong>
+                            Bs. {{ "%.2f"|format(pedido.total or 0) }}
+                        </strong>
+                    </td>
+                </tr>
+
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">
+                        No hay pedidos en este período.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
 </div>
 
 {% endblock %}

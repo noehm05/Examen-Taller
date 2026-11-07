@@ -62,7 +62,9 @@ def reporte_ventas():
         pedidos=pedidos,
         fecha_inicio=fecha_inicio,
         fecha_fin=fecha_fin,
-        total_ventas=total_ventas
+        total_ventas=total_ventas,
+        appbuilder=appbuilder,
+        base_template=appbuilder.base_template
     )
 
 
@@ -137,7 +139,9 @@ def reporte_productos_mas_vendidos():
         productos=productos,
         fecha_inicio=fecha_inicio,
         fecha_fin=fecha_fin,
-        total_unidades=total_unidades
+        total_unidades=total_unidades,
+        appbuilder=appbuilder,
+        base_template=appbuilder.base_template
     )
 
 
@@ -179,7 +183,9 @@ def reporte_inventario():
         "reportes/inventario.html",
         productos=productos,
         filtro=filtro,
-        productos_bajos=productos_bajos
+        productos_bajos=productos_bajos,
+        appbuilder=appbuilder,
+        base_template=appbuilder.base_template
     )
 
 

@@ -14,24 +14,51 @@ from app.models.modelos import (
 )
 
 
+# PLANTILLAS PERSONALIZADAS PARA TODAS LAS INTERFACES
+class CatalogoView(ModelView):
+    list_template = "catalogo/list.html"
+    add_template = "catalogo/add.html"
+    edit_template = "catalogo/edit.html"
+    show_template = "catalogo/show.html"
+
+
+# ==============================
 # CRUD DE CATEGORIAS
-class CategoriaView(ModelView):
+# ==============================
+class CategoriaView(CatalogoView):
     datamodel = SQLAInterface(Categoria)
 
-    list_columns = ["id_categoria", "nombre", "descripcion", "estado"]
+    list_columns = [
+        "id_categoria",
+        "nombre",
+        "descripcion",
+        "estado"
+    ]
+
     search_columns = ["nombre"]
 
 
+# ==============================
 # CRUD DE PROVEEDORES
-class ProveedorView(ModelView):
+# ==============================
+class ProveedorView(CatalogoView):
     datamodel = SQLAInterface(Proveedor)
 
-    list_columns = ["id_proveedor", "nombre", "telefono", "correo", "estado"]
+    list_columns = [
+        "id_proveedor",
+        "nombre",
+        "telefono",
+        "correo",
+        "estado"
+    ]
+
     search_columns = ["nombre", "telefono"]
 
 
+# ==============================
 # CRUD DE PRODUCTOS
-class ProductoView(ModelView):
+# ==============================
+class ProductoView(CatalogoView):
     datamodel = SQLAInterface(Producto)
 
     list_columns = [
@@ -60,8 +87,10 @@ class ProductoView(ModelView):
     search_columns = ["nombre"]
 
 
+# ==============================
 # CRUD DE CLIENTES
-class ClienteView(ModelView):
+# ==============================
+class ClienteView(CatalogoView):
     datamodel = SQLAInterface(Cliente)
 
     list_columns = [
@@ -75,8 +104,10 @@ class ClienteView(ModelView):
     search_columns = ["nombre", "telefono"]
 
 
+# ==============================
 # CRUD DE PEDIDOS
-class PedidoView(ModelView):
+# ==============================
+class PedidoView(CatalogoView):
     datamodel = SQLAInterface(Pedido)
 
     list_columns = [
@@ -119,8 +150,10 @@ class PedidoView(ModelView):
     edit_columns = add_columns
 
 
+# ==============================
 # CRUD DE DETALLES DE PEDIDOS
-class DetallePedidoView(ModelView):
+# ==============================
+class DetallePedidoView(CatalogoView):
     datamodel = SQLAInterface(DetallePedido)
 
     list_columns = [
@@ -143,7 +176,9 @@ class DetallePedidoView(ModelView):
     edit_columns = add_columns
 
 
-# REGISTRAR LAS SEIS VISTAS
+# ==============================
+# REGISTRO DE LAS SEIS VISTAS
+# ==============================
 
 appbuilder.add_view(
     CategoriaView,

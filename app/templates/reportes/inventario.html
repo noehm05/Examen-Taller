@@ -1,46 +1,205 @@
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario - JEHIELY</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #fff7f8; margin: 30px; color: #493b40; }
-        h1 { color: #b65f7c; }
-        .contenedor { background: white; padding: 25px; border-radius: 12px; }
-        select, button { padding: 9px; margin: 5px; }
-        button { background: #b65f7c; color: white; border: 0; border-radius: 5px; cursor: pointer; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
-        th { background: #f8e3e9; }
-        .bajo { color: #c0392b; font-weight: bold; }
-        .normal { color: #287a4b; font-weight: bold; }
-        .resumen { background: #f8e3e9; padding: 15px; border-radius: 8px; margin-top: 15px; }
-        a { color: #a34d6a; }
-    </style>
-</head>
-<body>
-    <div class="contenedor">
-        <a href="/">← Volver al sistema</a>
-        <h1>Reporte de inventario</h1>
-        <p>Consulta las existencias y detecta productos con stock bajo.</p>
+{% extends "catalogo/base.html" %}
 
-        <form method="GET">
-            <label>Filtrar productos:</label>
-            <select name="filtro">
-                <option value="todos" {% if filtro == "todos" %}selected{% endif %}>Todos</option>
-                <option value="bajo" {% if filtro == "bajo" %}selected{% endif %}>Stock bajo</option>
-                <option value="normal" {% if filtro == "normal" %}selected{% endif %}>Stock normal</option>
-            </select>
-            <button type="submit">Filtrar</button>
-        </form>
+{% block content %}
 
-        <div class="resumen">
-            <strong>Productos con stock bajo en esta consulta: {{ productos_bajos }}</strong>
+<style>
+    .reporte-contenedor {
+        padding: 25px;
+        background: #fff;
+        border: 1px solid #f3d8e8;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(150, 105, 150, 0.08);
+        margin-bottom: 25px;
+    }
+
+    .reporte-encabezado {
+        padding: 22px;
+        margin-bottom: 22px;
+        border-radius: 13px;
+        background: linear-gradient(110deg, #fff0f6, #f1eafa);
+    }
+
+    .reporte-encabezado h2 {
+        color: #895b9f;
+        font-weight: 700;
+        margin-top: 0;
+    }
+
+    .reporte-encabezado p {
+        color: #71627a;
+        margin-bottom: 0;
+    }
+
+    .reporte-filtros {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 20px 0;
+        padding: 18px;
+        background: #fff8fc;
+        border: 1px solid #f3d8e8;
+        border-radius: 12px;
+    }
+
+    .reporte-filtros label {
+        color: #80549a;
+        font-weight: 600;
+    }
+
+    .reporte-filtros select {
+        min-width: 180px;
+        padding: 9px;
+        border: 1px solid #e5cde9;
+        border-radius: 8px;
+        color: #51445b;
+        background: white;
+    }
+
+    .btn-reporte {
+        padding: 9px 18px;
+        background: #9370c8;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    .btn-reporte:hover {
+        background: #7956ae;
+        color: white;
+    }
+
+    .resumen-inventario {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 20px;
+        margin: 20px 0;
+        background: #fff0f6;
+        border: 1px solid #f3d8e8;
+        border-left: 5px solid #e879a9;
+        border-radius: 12px;
+    }
+
+    .resumen-inventario i {
+        font-size: 28px;
+        color: #d96d9f;
+    }
+
+    .resumen-inventario strong {
+        display: block;
+        color: #80549a;
+        font-size: 17px;
+    }
+
+    .tabla-reporte {
+        margin-top: 20px;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .tabla-reporte thead th {
+        background: #f1eafa !important;
+        color: #80549a !important;
+        padding: 14px;
+        border-bottom: 2px solid #e7c9e9 !important;
+    }
+
+    .tabla-reporte tbody td {
+        padding: 13px;
+        vertical-align: middle;
+    }
+
+    .estado-stock {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .estado-bajo {
+        color: #b83e62;
+        background: #ffe3ed;
+    }
+
+    .estado-normal {
+        color: #287a4b;
+        background: #e1f5e9;
+    }
+
+    .volver-sistema {
+        display: inline-block;
+        margin-bottom: 18px;
+        color: #895b9f;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .volver-sistema:hover {
+        color: #d96d9f;
+        text-decoration: none;
+    }
+</style>
+
+<div class="reporte-contenedor">
+
+    <a href="/" class="volver-sistema">
+        <i class="fa fa-arrow-left"></i> Volver al inicio
+    </a>
+
+    <div class="reporte-encabezado">
+        <h2>
+            <i class="fa fa-bar-chart"></i>
+            Reporte de inventario
+        </h2>
+        <p>
+            Consulta las existencias de tus productos y detecta cuáles necesitan reposición.
+        </p>
+    </div>
+
+    <form method="GET" class="reporte-filtros">
+        <label for="filtro">
+            <i class="fa fa-filter"></i> Filtrar productos:
+        </label>
+
+        <select name="filtro" id="filtro">
+            <option value="todos" {% if filtro == "todos" %}selected{% endif %}>
+                Todos los productos
+            </option>
+
+            <option value="bajo" {% if filtro == "bajo" %}selected{% endif %}>
+                Stock bajo
+            </option>
+
+            <option value="normal" {% if filtro == "normal" %}selected{% endif %}>
+                Stock normal
+            </option>
+        </select>
+
+        <button type="submit" class="btn-reporte">
+            <i class="fa fa-search"></i> Aplicar filtro
+        </button>
+    </form>
+
+    <div class="resumen-inventario">
+        <i class="fa fa-exclamation-triangle"></i>
+        <div>
+            <strong>{{ productos_bajos }}</strong>
+            <span>Productos con stock bajo en esta consulta</span>
         </div>
+    </div>
 
-        <table>
+    <h3>
+        <i class="fa fa-list"></i>
+        Existencias de productos
+    </h3>
+
+    <div class="table-responsive">
+        <table class="table table-hover tabla-reporte">
             <thead>
                 <tr>
                     <th>Producto</th>
@@ -50,28 +209,46 @@
                     <th>Estado</th>
                 </tr>
             </thead>
+
             <tbody>
                 {% for producto in productos %}
                 <tr>
-                    <td>{{ producto.nombre }}</td>
+                    <td>
+                        <strong>{{ producto.nombre }}</strong>
+                    </td>
+
                     <td>{{ producto.categoria.nombre }}</td>
+
                     <td>{{ producto.stock }}</td>
+
                     <td>{{ producto.stock_minimo }}</td>
+
                     <td>
                         {% if producto.stock <= producto.stock_minimo %}
-                            <span class="bajo">Stock bajo</span>
+                            <span class="estado-stock estado-bajo">
+                                <i class="fa fa-exclamation-circle"></i>
+                                Stock bajo
+                            </span>
                         {% else %}
-                            <span class="normal">Stock normal</span>
+                            <span class="estado-stock estado-normal">
+                                <i class="fa fa-check-circle"></i>
+                                Stock normal
+                            </span>
                         {% endif %}
                     </td>
                 </tr>
+
                 {% else %}
                 <tr>
-                    <td colspan="5">No hay productos para mostrar.</td>
+                    <td colspan="5" class="text-center">
+                        No hay productos para mostrar.
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-</body>
-</html>
+
+</div>
+
+{% endblock %}
